@@ -1,10 +1,17 @@
 ---
 
+images:
+  - us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image
 steps:
-- args: ['build', '-t', 'gcr.io/$PROJECT_ID/gcpdevops', '.']
-  name: docker
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['artifacts', 'repositories', 'create', '-r', 'gcpdevops-artifact']
+  - args:
+      - '-c'
+      - |
+        gcloud artifacts repositories create my-repo --repository-format=docker --location=us-central1 --project=$PROJECT_ID
+        gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+    entrypoint: bash
+    name: gcr.io/cloud-builders/gcloud
+  - args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image', '.']
+    name: gcr.io/cloud-builders/docker
 
 
 
