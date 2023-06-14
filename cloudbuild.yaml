@@ -1,6 +1,15 @@
 ---
-images:
-  - gcr.io/$PROJECT_ID/gcpdevops
+
 steps:
-  - args: ['build', '-t', 'gcr.io/$PROJECT_ID/gcpdevops', '.']
-    name: docker
+- args: ['build', '-t', 'gcr.io/$PROJECT_ID/gcpdevops', '.']
+  name: docker
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['artifacts', 'repositories', 'create', '-r', 'gcpdevops-artifact']
+
+
+
+#images:
+#  - gcr.io/$PROJECT_ID/gcpdevops
+#steps:
+#  - args: ['build', '-t', 'gcr.io/$PROJECT_ID/gcpdevops', '.']
+#    name: docker
