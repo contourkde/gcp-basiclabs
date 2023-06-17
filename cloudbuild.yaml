@@ -12,7 +12,7 @@ steps:
       [
         'run',
         '--filename=gke.yaml',
-        '--image=us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image',
+        '--image=us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:latest',
         '--location=us-central1-c',
         '--cluster=gcp-devops-project',
         '--namespace=gcp-devops-prod',

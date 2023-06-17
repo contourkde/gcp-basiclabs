@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: gcp-devops-gke
-        image: us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image
+        image: us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:latest
         ports:
         - containerPort: 5000
         env:
