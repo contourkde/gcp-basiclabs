@@ -1,25 +1,13 @@
-#create a cloudbuild.yaml file with build, push and deploy stages on a kubertenes cluster
 steps:
-  #build the image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image', '.']
-  #push the image to the container registry
-  - name: 'gcr.io/cloud-builders/docker'
+  - name: 'gcr.io/cloud-builders/docker' 
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image']
-  #deploy the image to the kubernetes cluster
   - name: 'gcr.io/cloud-builders/gke-deploy'
     args:
-      [
-        'run',
-        '--filename=gke.yaml',
-        '--image=us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:latest',
-        '--location=us-central1-c',
-        '--cluster=gcp-devops-project',
-        '--namespace=gcp-devops-prod',
-        #'--port=80',
-        #'--allow-unauthenticated',
-      ]
-    env:
-      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=gcp-devops-project'
-    
+    - run
+    - --filename=gke.yaml
+    - --image=us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:latest
+    - --location=us-central1-c
+    - --cluster=gcp-devops-project
+    - --namespace=gcp-devops-prod
