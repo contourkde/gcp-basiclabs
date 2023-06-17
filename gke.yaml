@@ -1,30 +1,43 @@
-#deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
 metadata:
-  name: gcp-devops-gke
+  name: "gcp-devops-gke"
+  namespace: "gcp-devops-prod"
+  labels:
+    app: "gcp-gke-app"
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      app: gcp-gke-app
+      app: "gcp-gke-app"
   template:
     metadata:
       labels:
-        app: gcp-gke-app
+        app: "gcp-gke-app"
     spec:
       containers:
-      - name: gcp-devops-gke
-        image: us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:latest
-        ports:
-        - containerPort: 5000
-        env:
-        - name: MESSAGE
-          value: "Hello World"
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+      - name: "my-image-1"
+        image: "us-central1-docker.pkg.dev/pr-manualdeployment/my-repo/my-image:latest"
+---
+apiVersion: "autoscaling/v2"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "gcp-devops-gke-hpa-87vz"
+  namespace: "gcp-devops-prod"
+  labels:
+    app: "gcp-gke-app"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "gcp-devops-gke"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      target:
+        type: "Utilization"
+        averageUtilization: 80

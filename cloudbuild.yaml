@@ -10,7 +10,8 @@ steps:
     args:
     - run
     - --filename=gke.yaml
-    - --image=us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:latest
+    - --image=us-central1-docker.pkg.dev/pr-manualdeployment/my-repo/my-image:latest
+    #- --image=us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:latest
     - --location=us-central1-c
     - --cluster=gcp-devops-project
     - --namespace=gcp-devops-prod
