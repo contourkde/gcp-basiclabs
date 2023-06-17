@@ -3,16 +3,19 @@ substitutions:
 
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image-dev', '.']
+  #  args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo-prod/my-image-prod', '.'] #PROD
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo-dev/my-image-dev', '.'] #DEV
   - name: 'gcr.io/cloud-builders/docker' 
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image-dev']
+  #  args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo-prod/my-image-prod'] #PROD
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo-dev/my-image-dev'] #DEV
   - name: 'gcr.io/cloud-builders/gke-deploy'
     args:
     - run
     - --filename=gke.yaml
-    #- --image=us-central1-docker.pkg.dev/pr-manualdeployment/my-repo/my-image:latest
-    - --image=us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image-dev
+    #- --image=us-central1-docker.pkg.dev/pr-manualdeployment/my-repo/my-image:latest #TEST
+    #- --image=us-central1-docker.pkg.dev/$PROJECT_ID/my-repo-prod/my-image-prod #PROD
+    - --image=us-central1-docker.pkg.dev/$PROJECT_ID/my-repo-dev/my-image-dev #DEV
     - --location=us-central1-c
     - --cluster=gcp-devops-project
-    - --namespace=gcp-devops-dev
-    #- --namespace=gcp-devops-prod
+    #- --namespace=gcp-devops-prod #PROD
+    - --namespace=gcp-devops-dev #DEV
