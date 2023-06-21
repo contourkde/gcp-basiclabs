@@ -14,12 +14,13 @@ steps:
     args:
     - run
     - --filename=gke.yaml
-    #- --image=us-central1-docker.pkg.dev/pr-manualdeployment/my-repo/my-image:latest #TEST
+    #- --image=us-central1-docker.pkg.dev/pr-manualdeployment/my-repo/my-image-test #TEST
     #- --image=us-central1-docker.pkg.dev/$PROJECT_ID/my-repo-prod/my-image-prod #PROD
     - --image=us-central1-docker.pkg.dev/$PROJECT_ID/my-repo-dev/my-image-dev #DEV
     - --location=us-central1-c
     #- --cluster=gcp-devops-project #TEST
     #- --cluster=gcp-devops-prod #PROD
     - --cluster=gcp-devops-dev #DEV
+    #- --namespace=gcp-devops-test #TEST
     #- --namespace=gcp-devops-prod #PROD
     - --namespace=gcp-devops-dev #DEV

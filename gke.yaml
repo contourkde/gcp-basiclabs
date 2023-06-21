@@ -3,7 +3,9 @@ apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: "gcp-devops-gke"
-  namespace: "gcp-devops-prod"
+  #namespace: "gcp-devops-test" #TEST
+  #namespace: "gcp-devops-prod" #PROD
+  namespace: "gcp-devops-dev" #DEV
   labels:
     app: "gcp-gke-app"
 spec:
@@ -18,13 +20,17 @@ spec:
     spec:
       containers:
       - name: "my-image-1"
-        image: "us-central1-docker.pkg.dev/pr-manualdeployment/my-repo/my-image:latest"
+        image: "us-central1-docker.pkg.dev/pr-manualdeployment/my-repo/my-image:latest" #TEST
+        #image: "us-central1-docker.pkg.dev/$PROJECT_ID/my-repo-prod/my-image-prod:latest" #PROD
+        #image: "us-central1-docker.pkg.dev/$PROJECT_ID/my-repo-dev/my-image-dev:latest" #DEV
 ---
 apiVersion: "autoscaling/v2"
 kind: "HorizontalPodAutoscaler"
 metadata:
   name: "gcp-devops-gke-hpa-87vz"
-  namespace: "gcp-devops-prod"
+  #namespace: "gcp-devops-prod" #PROD
+  #namespace: "gcp-devops-test" #TEST
+  namespace: "gcp-devops-dev" #DEV
   labels:
     app: "gcp-gke-app"
 spec:
@@ -46,7 +52,9 @@ apiVersion: "v1"
 kind: "Service"
 metadata:
   name: "gcp-devops-gke"
-  namespace: "gcp-devops-prod"
+  #namespace: "gcp-devops-prod" #PROD
+  #namespace: "gcp-devops-test" #TEST
+  namespace: "gcp-devops-dev" #DEV  
   labels:
     app: "gcp-gke-app"
 spec:
